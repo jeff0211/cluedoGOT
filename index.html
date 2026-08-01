@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cluedo Tracker - Westeros Edition</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configure Tailwind and Custom Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        parchment: '#f4ebd0',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Load Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #1c1917; /* stone-900 */
+            color: #f5f5f4; /* stone-100 */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Custom scrollbar for text areas */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1); 
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.3); 
+            border-radius: 4px;
+        }
+        
+        /* Smooth transitions */
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans p-2 md:p-4">
+
+    <div class="max-w-3xl mx-auto pb-24">
+        
+        <!-- Header -->
+        <div class="mb-4 flex flex-col md:flex-row items-center justify-between bg-stone-800 border-2 border-stone-600 rounded-xl p-3 shadow-lg gap-3">
+            <div class="flex flex-col items-center md:items-start w-full md:w-auto">
+                <h1 class="text-3xl font-serif text-amber-500 font-bold tracking-widest leading-none">CLUEDO</h1>
+                <span class="text-xs text-stone-400 tracking-widest uppercase mt-1">Westeros Edition</span>
+            </div>
+            
+            <div class="flex items-center gap-2 w-full md:w-auto justify-between md:justify-end">
+                <!-- Board Selector -->
+                <select id="board-selector" class="bg-stone-900 border border-stone-500 rounded p-2 text-stone-200 font-serif outline-none focus:border-amber-500 cursor-pointer">
+                    <option value="meereen">Meereen</option>
+                    <option value="redKeep">The Red Keep</option>
+                </select>
+
+                <div class="flex gap-2">
+                    <!-- Reset Button -->
+                    <button id="btn-reset" class="p-2 bg-stone-700 hover:bg-stone-600 border border-stone-500 rounded text-stone-200 transition-colors flex items-center justify-center" title="Reset Board">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    </button>
+                    <!-- Settings Button -->
+                    <button id="btn-settings" class="p-2 bg-stone-700 border border-stone-500 rounded text-stone-200 transition-colors flex items-center justify-center" title="Player Settings">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settings-panel" class="hidden mb-6 bg-stone-800 border-2 border-stone-600 rounded-xl p-4 shadow-lg">
+            <h3 class="font-bold mb-4 text-amber-500 font-serif tracking-wider">Player Initials</h3>
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-2" id="player-inputs-container">
+                <!-- Inputs generated by JS -->
+            </div>
+        </div>
+
+        <!-- Board Content -->
+        <div id="board-container" class="flex flex-col gap-6">
+            <!-- Tables generated by JS -->
+        </div>
+
+        <!-- Notes Section -->
+        <div class="mt-6">
+            <textarea id="notes-input" placeholder="Scribe your deductions here..." class="w-full h-32 p-3 bg-parchment text-stone-900 rounded-lg border-2 border-stone-800 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] outline-none focus:border-amber-700 font-serif placeholder-stone-500"></textarea>
+        </div>
+
+    </div>
+
+    <script>
+        // Game Data Definition
+        const boardsData = {
+            meereen: {
+                title: 'Meereen',
+                who: ['Daenerys Targaryen', 'Hizdahr zo Loraq', 'Jorah Mormont', 'Grey Worm', 'Missandei', 'Daario Naharis'],
+                where: ['Brothel', 'Pyramid of the Great Masters', 'Slave Quarters', 'Temple of the Graces', 'Dragon Catacombs', 'Tunnels', 'Grand Bazaar', 'City Gates', 'Fighting Pit of Danzak'],
+                what: ['Poison Vial', 'Battle Axe', 'Arakh', 'Faceless Man', 'Crossbow', 'Catspaw Assassin Dager']
+            },
+            redKeep: {
+                title: 'The Red Keep',
+                who: ['Cersei Lannister', 'Tyrion Lannister', 'Jaime Lannister', 'Margaery Tyrell', 'Petyr Baelish', 'Sansa Stark'],
+                where: ['Small Council Chamber', 'Qyburn\'s Laboratory', 'Tower of the Hand', 'Kingsguard Chambers', 'Prison Cells', 'Gardens', 'Pavilion', 'King Tommen\'s Bedchambers', 'Grandmaester Pycelle\'s Lab', 'Cersei\'s Bedchambers', 'Sparring Yard'],
+                what: ['Poison Vial', 'Battle Axe', 'Arakh', 'Faceless Man', 'Crossbow', 'Catspaw Assassin Dager']
+            }
+        };
+
+        const MARKER_TYPES = {
+            NONE: '',
+            CROSS: 'cross',
+            CHECK: 'check',
+            QUESTION: 'question'
+        };
+
+        // Icons
+        const ICONS = {
+            check: `<svg class="w-5 h-5 text-green-700 mx-auto drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
+            cross: `<svg class="w-5 h-5 text-red-700 mx-auto drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+            question: `<span class="text-amber-700 font-bold text-xl font-serif drop-shadow-sm">?</span>`,
+            who: `<svg class="w-5 h-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+            where: `<svg class="w-5 h-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>`,
+            what: `<svg class="w-5 h-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="14.5" y1="17.5" x2="3" y2="6"/><line x1="13.5" y1="18.5" x2="5.5" y2="10.5"/><path d="M17 19l4-4"/><path d="M19 17l-4 4"/></svg>`
+        };
+
+        // Application State
+        let state = {
+            activeBoard: 'meereen',
+            players: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
+            boardState: {},
+            showSettings: false
+        };
+
+        // DOM Elements
+        const boardContainer = document.getElementById('board-container');
+        const settingsPanel = document.getElementById('settings-panel');
+        const playerInputsContainer = document.getElementById('player-inputs-container');
+        const boardSelector = document.getElementById('board-selector');
+        const btnReset = document.getElementById('btn-reset');
+        const btnSettings = document.getElementById('btn-settings');
+        const notesInput = document.getElementById('notes-input');
+
+        function getInitialState(boardKey) {
+            const data = boardsData[boardKey];
+            const newState = {};
+            ['who', 'where', 'what'].forEach(category => {
+                data[category].forEach(item => {
+                    newState[item] = Array(6).fill(MARKER_TYPES.NONE);
+                });
+            });
+            return newState;
+        }
+
+        function initApp() {
+            state.boardState = getInitialState(state.activeBoard);
+            renderPlayerInputs();
+            renderBoard();
+            setupEventListeners();
+        }
+
+        function getMarkerContent(markerType) {
+            switch (markerType) {
+                case MARKER_TYPES.CHECK: return ICONS.check;
+                case MARKER_TYPES.CROSS: return ICONS.cross;
+                case MARKER_TYPES.QUESTION: return ICONS.question;
+                default: return '';
+            }
+        }
+
+        function renderPlayerInputs() {
+            playerInputsContainer.innerHTML = state.players.map((p, idx) => `
+                <input type="text" 
+                    value="${p}" 
+                    maxlength="3" 
+                    data-idx="${idx}"
+                    class="player-input bg-stone-900 border border-stone-600 rounded p-2 text-center font-bold text-amber-100 uppercase outline-none focus:border-amber-500 w-full" 
+                />
+            `).join('');
+        }
+
+        function renderBoard() {
+            boardContainer.innerHTML = '';
+            
+            const categories = [
+                { key: 'who', title: 'WHO', icon: ICONS.who },
+                { key: 'where', title: 'WHERE', icon: ICONS.where },
+                { key: 'what', title: 'WHAT', icon: ICONS.what }
+            ];
+
+            categories.forEach(cat => {
+                const items = boardsData[state.activeBoard][cat.key];
+                if (!items) return;
+
+                // Create Section Wrapper
+                const section = document.createElement('div');
+                section.className = "rounded-lg border-2 border-stone-800 bg-parchment shadow-[0_4px_12px_rgba(0,0,0,0.3)] overflow-hidden";
+                
+                // Header
+                const header = `
+                    <div class="bg-stone-900 text-stone-100 p-3 flex items-center gap-2 border-b-2 border-stone-800">
+                        ${cat.icon}
+                        <h2 class="text-xl font-serif font-bold tracking-wider uppercase">${cat.title}:</h2>
+                    </div>
+                `;
+
+                // Player Initials Row
+                const playerHeaders = `
+                    <div class="flex bg-stone-300 border-b border-stone-400">
+                        <div class="w-1/2 md:w-5/12 p-2 border-r-2 border-stone-800 flex items-center">
+                            <span class="text-xs font-bold text-stone-500 uppercase tracking-widest">Suspect/Location/Weapon</span>
+                        </div>
+                        <div class="w-1/2 md:w-7/12 flex">
+                            ${state.players.map((p, pIdx) => `
+                                <div class="player-header-${pIdx} flex-1 text-center font-bold font-serif text-stone-800 py-1 text-sm border-r border-stone-400/50 last:border-0 uppercase flex items-center justify-center">
+                                    ${p}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // Items Rows
+                const rows = items.map((item, itemIdx) => {
+                    const rowBg = itemIdx % 2 === 0 ? 'bg-black/5' : '';
+                    
+                    const cells = state.players.map((_, pIdx) => {
+                        const currentMarker = state.boardState[item][pIdx];
+                        // Safe ID creation for attributes
+                        const safeItem = item.replace(/[^a-zA-Z0-9]/g, '-');
+                        
+                        return `
+                            <button 
+                                class="marker-btn flex-1 min-w-0 border-r border-stone-400/50 last:border-0 flex items-center justify-center hover:bg-stone-400/30 active:bg-stone-400/50 transition-colors h-10 md:h-12"
+                                data-item="${item}"
+                                data-player="${pIdx}"
+                            >
+                                ${getMarkerContent(currentMarker)}
+                            </button>
+                        `;
+                    }).join('');
+
+                    return `
+                        <div class="flex border-b border-stone-400/50 last:border-0 ${rowBg}">
+                            <div class="w-1/2 md:w-5/12 p-2 flex items-center border-r-2 border-stone-800">
+                                <span class="text-sm md:text-base font-serif text-stone-900 leading-tight">${item}</span>
+                            </div>
+                            <div class="w-1/2 md:w-7/12 flex">
+                                ${cells}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                section.innerHTML = header + playerHeaders + `<div class="flex flex-col">${rows}</div>`;
+                boardContainer.appendChild(section);
+            });
+        }
+
+        function setupEventListeners() {
+            // Toggle Settings
+            btnSettings.addEventListener('click', () => {
+                state.showSettings = !state.showSettings;
+                if (state.showSettings) {
+                    settingsPanel.classList.remove('hidden');
+                    btnSettings.classList.add('bg-amber-700', 'text-white');
+                    btnSettings.classList.remove('bg-stone-700', 'text-stone-200');
+                } else {
+                    settingsPanel.classList.add('hidden');
+                    btnSettings.classList.remove('bg-amber-700', 'text-white');
+                    btnSettings.classList.add('bg-stone-700', 'text-stone-200');
+                }
+            });
+
+            // Reset Board
+            btnReset.addEventListener('click', () => {
+                if (confirm("By the old gods and the new, are you sure you want to clear the board and start a new round?")) {
+                    state.boardState = getInitialState(state.activeBoard);
+                    notesInput.value = '';
+                    renderBoard(); // Full re-render to clear markers safely
+                }
+            });
+
+            // Board Selection Change
+            boardSelector.addEventListener('change', (e) => {
+                const newBoard = e.target.value;
+                if (newBoard !== state.activeBoard) {
+                    if (confirm("Changing locations will clear your current board. Proceed?")) {
+                        state.activeBoard = newBoard;
+                        state.boardState = getInitialState(state.activeBoard);
+                        notesInput.value = '';
+                        renderBoard();
+                    } else {
+                        // Revert selection if cancelled
+                        boardSelector.value = state.activeBoard;
+                    }
+                }
+            });
+
+            // Player Inputs Delegation
+            playerInputsContainer.addEventListener('input', (e) => {
+                if (e.target.classList.contains('player-input')) {
+                    const idx = parseInt(e.target.dataset.idx);
+                    let val = e.target.value.substring(0, 3).toUpperCase();
+                    state.players[idx] = val;
+                    
+                    // Update all headers dynamically without full re-render
+                    document.querySelectorAll(`.player-header-${idx}`).forEach(el => {
+                        el.textContent = val;
+                    });
+                }
+            });
+
+            // Cell Clicks Delegation
+            boardContainer.addEventListener('click', (e) => {
+                const btn = e.target.closest('.marker-btn');
+                if (!btn) return;
+
+                const item = btn.dataset.item;
+                const pIdx = parseInt(btn.dataset.player);
+                
+                let current = state.boardState[item][pIdx];
+                let next = MARKER_TYPES.NONE;
+                
+                // Cycle logic
+                if (current === MARKER_TYPES.NONE) next = MARKER_TYPES.CROSS;
+                else if (current === MARKER_TYPES.CROSS) next = MARKER_TYPES.CHECK;
+                else if (current === MARKER_TYPES.CHECK) next = MARKER_TYPES.QUESTION;
+                
+                // Update State
+                state.boardState[item][pIdx] = next;
+                
+                // Update DOM Element directly for performance
+                btn.innerHTML = getMarkerContent(next);
+            });
+        }
+
+        // Boot the app
+        initApp();
+
+    </script>
+</body>
+</html>
