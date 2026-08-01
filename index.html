@@ -328,7 +328,7 @@
                 
                 // Header
                 const header = `
-                    <div class="category-header bg-stone-900 text-stone-100 p-2 sm:p-3 flex items-center gap-2 border-b-2 border-amber-700">
+                    <div class="category-header bg-stone-900 text-stone-100 p-2 sm:p-3 flex items-center gap-2 border-b-2 border-[#d7b77d]">
                         ${cat.icon}
                         <h2 class="section-title text-lg sm:text-xl font-serif font-bold tracking-wider uppercase">${cat.title}:</h2>
                     </div>
@@ -336,13 +336,13 @@
 
                 // Player Initials Row
                 const playerHeaders = `
-                    <div class="flex bg-stone-300 border-b border-amber-700">
-                        <div class="w-[42%] sm:w-[38%] md:w-[35%] p-1.5 sm:p-2 border-r-2 border-amber-700 flex items-center">
+                    <div class="flex bg-stone-300 border-b border-[#d7b77d]">
+                        <div class="w-[42%] sm:w-[38%] md:w-[35%] p-1.5 sm:p-2 border-r-2 border-[#d7b77d] flex items-center">
                             <span class="text-[7px] sm:text-[10px] md:text-xs font-bold text-stone-700 uppercase tracking-widest">NAME</span>
                         </div>
                         <div class="w-[58%] sm:w-[62%] md:w-[65%] flex">
                             ${state.players.map((p, pIdx) => `
-                                <div class="player-header player-header-${pIdx} w-[16.66%] text-center font-bold font-serif text-stone-800 py-0.5 sm:py-1 text-[8px] sm:text-[10px] md:text-sm border-r border-amber-700/80 last:border-0 uppercase flex items-center justify-center">
+                                <div class="player-header player-header-${pIdx} w-[16.66%] text-center font-bold font-serif text-stone-800 py-0.5 sm:py-1 text-[8px] sm:text-[10px] md:text-sm border-r border-[#d7b77d] last:border-0 uppercase flex items-center justify-center">
                                     ${p}
                                 </div>
                             `).join('')}
@@ -359,7 +359,7 @@
                         
                         return `
                             <button 
-                                class="marker-btn w-[16.66%] border-r border-amber-700/80 last:border-0 flex items-center justify-center hover:bg-amber-700/10 active:bg-amber-700/20 transition-colors h-8 sm:h-10 md:h-12"
+                                class="marker-btn w-[16.66%] border-r border-[#d7b77d] last:border-0 flex items-center justify-center hover:bg-[#d7b77d]/10 active:bg-[#d7b77d]/20 transition-colors h-8 sm:h-10 md:h-12"
                                 data-item="${item}"
                                 data-player="${pIdx}"
                             >
@@ -369,8 +369,8 @@
                     }).join('');
 
                     return `
-                        <div class="flex border-b border-amber-700/70 last:border-0 ${rowBg}">
-                            <div class="w-[42%] sm:w-[38%] md:w-[35%] p-1.5 sm:p-2 flex items-center border-r-2 border-amber-700">
+                        <div class="flex border-b border-[#d7b77d] last:border-0 ${rowBg}">
+                            <div class="w-[42%] sm:w-[38%] md:w-[35%] p-1.5 sm:p-2 flex items-center border-r-2 border-[#d7b77d]">
                                 <span class="item-label text-[8px] sm:text-[11px] md:text-base font-serif text-stone-900 leading-tight">${item}</span>
                             </div>
                             <div class="w-[58%] sm:w-[62%] md:w-[65%] flex">
