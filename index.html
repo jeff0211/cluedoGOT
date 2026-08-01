@@ -324,11 +324,11 @@
 
                 // Create Section Wrapper
                 const section = document.createElement('div');
-                section.className = "rounded-lg border-2 border-stone-800 bg-parchment shadow-[0_4px_12px_rgba(0,0,0,0.3)] overflow-hidden";
+                section.className = "rounded-lg border border-stone-800 bg-parchment shadow-[0_4px_12px_rgba(0,0,0,0.3)] overflow-hidden";
                 
                 // Header
                 const header = `
-                    <div class="category-header bg-stone-900 text-stone-100 p-2 sm:p-3 flex items-center gap-2 border-b-2 border-[#d7b77d]">
+                    <div class="category-header bg-stone-900 text-stone-100 p-2 sm:p-3 flex items-center gap-2 border-b border-[#d7b77d]">
                         ${cat.icon}
                         <h2 class="section-title text-lg sm:text-xl font-serif font-bold tracking-wider uppercase">${cat.title}:</h2>
                     </div>
@@ -370,7 +370,7 @@
 
                     return `
                         <div class="flex border-b border-[#d7b77d] last:border-0 ${rowBg}">
-                            <div class="w-[42%] sm:w-[38%] md:w-[35%] p-1.5 sm:p-2 flex items-center border-r-2 border-[#d7b77d]">
+                            <div class="w-[42%] sm:w-[38%] md:w-[35%] p-1.5 sm:p-2 flex items-center border-r border-[#d7b77d]">
                                 <span class="item-label text-[8px] sm:text-[11px] md:text-base font-serif text-stone-900 leading-tight">${item}</span>
                             </div>
                             <div class="w-[58%] sm:w-[62%] md:w-[65%] flex">
